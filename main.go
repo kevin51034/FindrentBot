@@ -7,13 +7,22 @@ import (
 	"os"
 	"strconv"
 
+	crawler "github.com/kevin51034/Crawler591"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
 var bot *linebot.Client
-
+var c *crawler.Crawler
+func init() {
+	c = crawler.Newcrawler()
+}
 func main() {
 	var err error
+	//c := crawler.Newcrawler()
+	
+	// set tour option
+	setOptions()
+
 	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
 	log.Println("Bot:", bot, " err:", err)
 	http.HandleFunc("/callback", callbackHandler)
@@ -21,6 +30,8 @@ func main() {
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
 }
+
+
 
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	events, err := bot.ParseRequest(r)
@@ -38,16 +49,38 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		if event.Type == linebot.EventTypeMessage {
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
+				if message.Text == "items" {
+					items, _ := c.ItemandPageNum()
+					/*if _, err = bot.ReplyMessage(event.ReplyToken, 
+						linebot.NewTextMessage(message.ID+":"+message.Text)).Do(); err != nil {
+						log.Print(err)
+					}*/
+					log.Println(items)
+					if _, err = bot.ReplyMessage(event.ReplyToken, 
+						linebot.NewTextMessage("it has " + strconv.Itoa(items) + " items within your conditions!")).Do(); err != nil {
+						log.Print(err)
+					}
+				}
+				/*
+				// get quota
 				quota, err := bot.GetMessageQuota().Do()
 				if err != nil {
 					log.Println("Quota err:", err)
 				}
 				if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.ID+":"+message.Text+" OK! remain message:"+strconv.FormatInt(quota.Value, 10))).Do(); err != nil {
 					log.Print(err)
-				}
+				}*/
 			}
 		}
 	}
+}
+
+func setOptions() {
+	c.Options.RentPrice = "8000,15000"
+	c.Options.Kind = 2
+	c.Options.HasImg = "1"
+	c.Options.NotCover = "1"
+	c.Options.Role = "1"
 }
 
 /*
