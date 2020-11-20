@@ -13,13 +13,14 @@ import (
 
 var bot *linebot.Client
 var c *crawler.Crawler
+
 func init() {
 	c = crawler.Newcrawler()
 }
 func main() {
 	var err error
 	//c := crawler.Newcrawler()
-	
+
 	// set tour option
 	setOptions()
 
@@ -30,8 +31,6 @@ func main() {
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
 }
-
-
 
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	events, err := bot.ParseRequest(r)
@@ -51,25 +50,34 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			case *linebot.TextMessage:
 				if message.Text == "items" {
 					items, _ := c.ItemandPageNum()
-					/*if _, err = bot.ReplyMessage(event.ReplyToken, 
-						linebot.NewTextMessage(message.ID+":"+message.Text)).Do(); err != nil {
-						log.Print(err)
-					}*/
-					log.Println(items)
-					if _, err = bot.ReplyMessage(event.ReplyToken, 
-						linebot.NewTextMessage("it has " + strconv.Itoa(items) + " items within your conditions!")).Do(); err != nil {
+					c.Start(1)
+					// flex messages
+					jsonData := NewJSONData()
+					container, err := linebot.UnmarshalFlexMessageJSON(jsonData)
+					// err is returned if invalid JSON is given that cannot be unmarshalled
+					if err != nil {
+						log.Fatal(err)
+					}
+					//fmt.Printf("%+v", container)
+					var messages []linebot.SendingMessage
+
+					tmp1 := linebot.NewTextMessage("it has " + strconv.Itoa(items) + " items within your conditions!")
+					messages = append(messages, tmp1)
+					tmp2 := linebot.NewFlexMessage("alt text", container)
+					messages = append(messages, tmp2)
+					if _, err = bot.ReplyMessage(event.ReplyToken, messages...).Do(); err != nil {
 						log.Print(err)
 					}
 				}
 				/*
-				// get quota
-				quota, err := bot.GetMessageQuota().Do()
-				if err != nil {
-					log.Println("Quota err:", err)
-				}
-				if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.ID+":"+message.Text+" OK! remain message:"+strconv.FormatInt(quota.Value, 10))).Do(); err != nil {
-					log.Print(err)
-				}*/
+					// get quota
+					quota, err := bot.GetMessageQuota().Do()
+					if err != nil {
+						log.Println("Quota err:", err)
+					}
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.ID+":"+message.Text+" OK! remain message:"+strconv.FormatInt(quota.Value, 10))).Do(); err != nil {
+						log.Print(err)
+					}*/
 			}
 		}
 	}
