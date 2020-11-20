@@ -67,6 +67,11 @@ type FlexMessage struct {
 		PaddingAll      string `json:"paddingAll"`
 		BackgroundColor string `json:"backgroundColor"`
 	} `json:"body"`
+	Action struct {
+		Type  string `json:"type"`
+		Label string `json:"label"`
+		URI   string `json:"uri"`
+	} `json:"action"`
 }
 
 func NewJSONData() []byte {
@@ -154,19 +159,12 @@ func NewJSONData() []byte {
 				  "layout": "vertical",
 				  "contents": [
 					{
-					  "type": "box",
-					  "layout": "vertical",
-					  "contents": [
-						{
 						  "type": "text",
-						  "contents": [],
 						  "size": "sm",
 						  "wrap": true,
 						  "margin": "lg",
 						  "color": "#ffffffde",
 						  "text": "Private Pool, Delivery box, Floor heating, Private Cinema"
-						}
-					  ]
 					}
 				  ],
 				  "paddingAll": "13px",
@@ -179,8 +177,13 @@ func NewJSONData() []byte {
 		  ],
 		  "paddingAll": "20px",
 		  "backgroundColor": "#464F69"
+		},
+		"action": {
+			"type": "uri",
+			"label": "action",
+			"uri": "http://linecorp.com/"
 		}
 	  }`)
-
+	
 	return jsonData
 }

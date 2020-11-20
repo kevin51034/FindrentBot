@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"encoding/json"
+
 
 	crawler "github.com/kevin51034/Crawler591"
 	"github.com/line/line-bot-sdk-go/linebot"
@@ -53,13 +55,22 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					c.Start(1)
 					// flex messages
 					jsonData := NewJSONData()
-					container, err := linebot.UnmarshalFlexMessageJSON(jsonData)
+
+					var messages []linebot.SendingMessage
+					var structdata FlexMessage
+					json.Unmarshal(jsonData, &structdata)
+					structdata.Header.Contents[0].Contents[0].URL = c.Houselist[0].ImgSrc
+					structdata.Body.Contents[0].Contents[0].Contents[0].Text = c.Houselist[0].Title
+					structdata.Body.Contents[0].Contents[0].Contents[1].Text = c.Houselist[0].Kind + " $" + c.Houselist[0].Price + "/月"
+					structdata.Body.Contents[0].Contents[0].Contents[1].Text = c.Houselist[0].Kind + " $" + c.Houselist[0].Price + "/月"
+					structdata.Body.Contents[0].Contents[1].Contents[0].Text = c.Houselist[0].Address + " " + c.Houselist[0].Floor + " " + c.Houselist[0].UpdateTime
+					structdata.Action.URI = c.Houselist[0].URL
+					b, err := json.MarshalIndent(structdata, "", "  ")
+					container, err := linebot.UnmarshalFlexMessageJSON(b)
 					// err is returned if invalid JSON is given that cannot be unmarshalled
 					if err != nil {
 						log.Fatal(err)
 					}
-					//fmt.Printf("%+v", container)
-					var messages []linebot.SendingMessage
 
 					tmp1 := linebot.NewTextMessage("it has " + strconv.Itoa(items) + " items within your conditions!")
 					messages = append(messages, tmp1)
