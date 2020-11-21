@@ -4,11 +4,8 @@ github.com/andybalholm/cascadia v1.1.0 h1:BuuO6sSfQNFRu1LppgbD25Hr2vLYW25JvxHs5z
 github.com/andybalholm/cascadia v1.1.0/go.mod h1:GsXiBklL0woXo1j/WYWtSYYC4ouU9PqHO0sqidkEA4Y=
 github.com/google/go-querystring v1.0.0 h1:Xkwi/a1rcvNg1PPYe5vI8GbeBY/jrVuDX5ASuANWTrk=
 github.com/google/go-querystring v1.0.0/go.mod h1:odCYkC5MyYFN7vkCjXpyrEuKhc/BUO6wN/zVPAxq5ck=
-github.com/kevin51034/Crawler591 v0.0.0-20201119075956-23fdeeb9dbc2 h1:DLl5gFcBggDAWiJqDqs4czuEXmIU9d7El3qDStG54dI=
-github.com/kevin51034/Crawler591 v0.0.0-20201119075956-23fdeeb9dbc2/go.mod h1:RwQ8opSjSupXmdzGEMDPAstob/KBpLgCArKVMDx9lHA=
 github.com/kevin51034/Crawler591 v0.0.0-20201120065319-c2938d404f42 h1:zjeTWC+0vMF30V1y0Ic4qfuOa8oZGkTE1NuInePibJQ=
 github.com/kevin51034/Crawler591 v0.0.0-20201120065319-c2938d404f42/go.mod h1:RwQ8opSjSupXmdzGEMDPAstob/KBpLgCArKVMDx9lHA=
-github.com/line/line-bot-sdk-go v1.3.0 h1:bYwGgbUrYbvTEJ8oOT18rmkclJOCB1RtLwYVZ97ello=
 github.com/line/line-bot-sdk-go v7.6.0+incompatible h1:Nc6hiry9gAaWJ28VAmH5b/mNqAr2l9leHXTVGmn4jHQ=
 github.com/line/line-bot-sdk-go v7.6.0+incompatible/go.mod h1:0RjLjJEAU/3GIcHkC3av6O4jInAbt25nnZVmOFUgDBg=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=

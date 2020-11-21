@@ -13,7 +13,12 @@
                     "aspectMode": "cover",
                     "aspectRatio": "150:196",
                     "gravity": "center",
-                    "flex": 1
+                    "flex": 1,
+                    "action": {
+                        "type": "uri",
+                        "label": "action",
+                        "uri": "http://linecorp.com/"
+                    }
                 },
                 {
                     "type": "box",
@@ -73,17 +78,12 @@
                     "type": "box",
                     "layout": "vertical",
                     "contents": [{
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [{
-                            "type": "text",
-                            "contents": [],
-                            "size": "sm",
-                            "wrap": true,
-                            "margin": "lg",
-                            "color": "#ffffffde",
-                            "text": "Private Pool, Delivery box, Floor heating, Private Cinema"
-                        }]
+                        "type": "text",
+                        "size": "sm",
+                        "wrap": true,
+                        "margin": "lg",
+                        "color": "#ffffffde",
+                        "text": "Private Pool, Delivery box, Floor heating, Private Cinema"
                     }],
                     "paddingAll": "13px",
                     "backgroundColor": "#ffffff1A",

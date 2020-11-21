@@ -1,13 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
-	"encoding/json"
-
 
 	crawler "github.com/kevin51034/Crawler591"
 	"github.com/line/line-bot-sdk-go/linebot"
@@ -53,7 +52,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 					if _, err = bot.ReplyMessage(event.ReplyToken, messages...).Do(); err != nil {
 						log.Print(err)
 					}
-				}else if message.Text == "Items" {
+				} else if message.Text == "Items" {
 					items, _ := c.ItemandPageNum()
 					//c.Start(1)
 					message := linebot.NewTextMessage("it has " + strconv.Itoa(items) + " items within your conditions!")
@@ -75,12 +74,13 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// construct flexmessage slice
 func ConstructFlexJSON(index int) []linebot.SendingMessage {
 	pages := (index+5)/30 + 1
 	fmt.Println(pages)
 	c.Start(pages)
 	var messages []linebot.SendingMessage
-	for i:=index; i<index+5; i++ {
+	for i := index; i < index+5; i++ {
 		jsonData := NewJSONData()
 		var structdata FlexMessage
 		json.Unmarshal(jsonData, &structdata)
@@ -102,6 +102,7 @@ func ConstructFlexJSON(index int) []linebot.SendingMessage {
 	return messages
 }
 
+// set your rent options
 func setOptions() {
 	c.Options.RentPrice = "10000,15000"
 	c.Options.Kind = 2
@@ -109,28 +110,3 @@ func setOptions() {
 	c.Options.NotCover = "1"
 	c.Options.Role = "1"
 }
-
-/*
-
-package main
-
-import (
-	crawler "github.com/kevin51034/Crawler591"
-)
-
-func main() {
-	c := crawler.Newcrawler()
-	//c.options.RentPrice = "2"
-	//fmt.Println(c.ItemandPageNum())
-	c.Start(3)
-	//c.Scrape(10)
-	//doc := NewDoc()
-	//findItemandPage(doc)
-	//fmt.Println(c.options)
-
-	c.ExportJSON()
-
-	// TODO extract within minuts/hours/days
-}
-
-*/

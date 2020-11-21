@@ -184,6 +184,6 @@ func NewJSONData() []byte {
 		  "backgroundColor": "#464F69"
 		}
 	  }`)
-	
+
 	return jsonData
 }
