@@ -16,8 +16,13 @@ type FlexMessage struct {
 				AspectRatio string `json:"aspectRatio,omitempty"`
 				Gravity     string `json:"gravity,omitempty"`
 				Flex        int    `json:"flex"`
-				Layout      string `json:"layout,omitempty"`
-				Contents    []struct {
+				Action      struct {
+					Type  string `json:"type"`
+					Label string `json:"label"`
+					URI   string `json:"uri"`
+				} `json:"action,omitempty"`
+				Layout   string `json:"layout,omitempty"`
+				Contents []struct {
 					Type    string `json:"type"`
 					Text    string `json:"text"`
 					Size    string `json:"size"`
@@ -67,11 +72,6 @@ type FlexMessage struct {
 		PaddingAll      string `json:"paddingAll"`
 		BackgroundColor string `json:"backgroundColor"`
 	} `json:"body"`
-	Action struct {
-		Type  string `json:"type"`
-		Label string `json:"label"`
-		URI   string `json:"uri"`
-	} `json:"action"`
 }
 
 func NewJSONData() []byte {
@@ -92,7 +92,12 @@ func NewJSONData() []byte {
 				  "aspectMode": "cover",
 				  "aspectRatio": "150:196",
 				  "gravity": "center",
-				  "flex": 1
+				  "flex": 1,
+				  "action": {
+					"type": "uri",
+					"label": "action",
+					"uri": "http://linecorp.com/"
+				  }
 				},
 				{
 				  "type": "box",
@@ -177,11 +182,6 @@ func NewJSONData() []byte {
 		  ],
 		  "paddingAll": "20px",
 		  "backgroundColor": "#464F69"
-		},
-		"action": {
-			"type": "uri",
-			"label": "action",
-			"uri": "http://linecorp.com/"
 		}
 	  }`)
 	
